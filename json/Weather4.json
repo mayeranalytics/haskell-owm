@@ -1,0 +1,41 @@
+{
+   "coord":{
+      "lon":-3.01,
+      "lat":16.77
+   },
+   "weather":[
+      {
+         "id":800,
+         "main":"Clear",
+         "description":"clear sky",
+         "icon":"01d"
+      }
+   ],
+   "base":"stations",
+   "main":{
+      "temp":307.299,
+      "pressure":993.5,
+      "humidity":20,
+      "temp_min":307.299,
+      "temp_max":307.299,
+      "sea_level":1023.16,
+      "grnd_level":993.5
+   },
+   "wind":{
+      "speed":1.41,
+      "deg":90.0019
+   },
+   "clouds":{
+      "all":0
+   },
+   "dt":1476262238,
+   "sys":{
+      "message":0.0034,
+      "country":"ML",
+      "sunrise":1476252252,
+      "sunset":1476294731
+   },
+   "id":2449067,
+   "name":"Timbuktu",
+   "cod":200
+}
