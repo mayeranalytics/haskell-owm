@@ -1,12 +1,1 @@
-{"coord":{"lon":139,"lat":35},
-  "sys":{"country":"JP","sunrise":1369769524,"sunset":1369821049},
-  "weather":[{"id":804,"main":"clouds","description":"overcast clouds","icon":"04n"}],
-  "main":{"temp":289.5,"humidity":89,"pressure":1013,"temp_min":287.04,"temp_max":292.04},
-  "wind":{"speed":7.31,"deg":187.002},
-  "rain":{"3h":0},
-  "clouds":{"all":92},
-  "dt":1369824698,
-  "id":1851632,
-  "name":"Shuzenji",
-  "cod":200
-}
+{"coord":{"lon":8.83,"lat":47.19},"weather":[{"id":802,"main":"Clouds","description":"Überwiegend bewölkt","icon":"03d"}],"base":"stations","main":{"temp":6.8,"pressure":1012,"humidity":93,"temp_min":6,"temp_max":7},"wind":{"speed":1},"clouds":{"all":40},"dt":1541578800,"sys":{"type":1,"id":6007,"message":0.209,"country":"CH","sunrise":1541571418,"sunset":1541606347},"id":2661776,"name":"Altendorf","cod":200}
