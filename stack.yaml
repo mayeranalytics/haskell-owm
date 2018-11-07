@@ -2,5 +2,7 @@ flags: {}
 extra-package-dbs: []
 packages:
 - '.'
-extra-deps: []
+extra-deps: 
+- ghc-8.4.3@sha256:07ee8fb5dab414c35f93d5d5afc1ecaa65a49c409346e5063436cc8b838cd754
+allow-newer: true
 resolver: lts-12.16
