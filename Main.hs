@@ -16,5 +16,4 @@ getKey = strip <$> readFile "owm.key"
 main :: IO()
 main = do
     key <- getKey
-    weather <- Owm.Weather.fromCityName key Owm.Metric Owm.EN "Altendorf" (Just "CH")
-    print weather
+    print =<< Owm.Weather.fromCityName key Owm.Metric Owm.EN "Altendorf" (Just "CH") 
