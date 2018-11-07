@@ -24,18 +24,18 @@ get key units lang url = do
     return $ decode response
 
 fromCityId :: Owm.Key -> Owm.Units -> Owm.Lang -> Owm.CityId -> IO (Maybe Weather)
-fromCityId key units lang id_ = get key units lang (Owm.owm_base_url ++ "/weather?id=" ++ show id_)
+fromCityId key units lang id_ = get key units lang (Owm.owmBaseUrl25 ++ "/weather?id=" ++ show id_)
 
 fromCityName :: Owm.Key -> Owm.Units -> Owm.Lang -> Owm.CityName -> Maybe Owm.CountryCode -> IO (Maybe Weather)
-fromCityName key units lang name ccode = get key units lang (Owm.owm_base_url ++ "/weather?" ++ q) where
+fromCityName key units lang name ccode = get key units lang (Owm.owmBaseUrl25 ++ "/weather?" ++ q) where
     q = "q=" ++ name ++ (maybe "" ("," ++) ccode)
 
 fromCoords :: Owm.Key -> Owm.Units -> Owm.Lang -> Owm.Coords -> IO (Maybe Weather)
-fromCoords key units lang (lat, lon) = get key units lang (Owm.owm_base_url ++ "/weather?" ++ q) where
+fromCoords key units lang (lat, lon) = get key units lang (Owm.owmBaseUrl25 ++ "/weather?" ++ q) where
     q = "lat=" ++ show lat ++ "&lon=" ++ show lon
 
 fromZipCode :: Owm.Key -> Owm.Units -> Owm.Lang -> Owm.ZipCode -> Maybe Owm.CountryCode -> IO (Maybe Weather)
-fromZipCode key units lang zipcode ccode = get key units lang (Owm.owm_base_url ++ "/weather?" ++ q) where
+fromZipCode key units lang zipcode ccode = get key units lang (Owm.owmBaseUrl25 ++ "/weather?" ++ q) where
     q = case ccode of
         Just ccode' -> "zip=" ++ show zipcode ++ "," ++ ccode'
         Nothing     -> "zip=" ++ show zipcode

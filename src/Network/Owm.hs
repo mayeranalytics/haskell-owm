@@ -10,11 +10,14 @@ module Network.Owm
     CountryCode,
     Lang(..),
     Units(..),
-    owm_base_url
+    owmBaseUrl25
 ) where
 
-owm_base_url :: String
-owm_base_url = "http://api.openweathermap.org/data/2.5/"
+owmBaseUrl25 :: String
+owmBaseUrl25 = "http://api.openweathermap.org/data/2.5/"
+
+owmBaseUrl30 :: String
+owmBaseUrl30 = "http://api.openweathermap.org/data/3.0/"
 
 type Key = String
 type CityName = String
