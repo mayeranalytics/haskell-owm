@@ -1,3 +1,4 @@
 *.key
 auto-src/
 .stack-work
+.compiled
