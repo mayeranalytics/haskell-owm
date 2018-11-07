@@ -21,6 +21,7 @@ library
                      , json-autotype
                      , HTTP
                      , text
+  other-modules:     Network.Owm.Internal.Weather, Network.Owm.Internal.Forecast, Network.Owm.Internal.ForecastDaily
   default-language:    Haskell2010
 
 executable parse-owm
@@ -35,4 +36,16 @@ executable parse-owm
                      , aeson
                      , json-autotype
                      , text
+  default-language:    Haskell2010
+
+
+executable get-json-examples
+  hs-source-dirs:      .
+  main-is:             GetJsonExamples.hs
+  ghc-options:         -O2 -threaded
+  build-depends:       base
+                     , bytestring
+                     , http-conduit
+                     , mtl
+                     , MissingH
   default-language:    Haskell2010
