@@ -13,6 +13,8 @@ module Network.Owm
     owmBaseUrl25
 ) where
 
+import Prelude hiding (LT)
+
 owmBaseUrl25 :: String
 owmBaseUrl25 = "http://api.openweathermap.org/data/2.5/"
 
@@ -30,38 +32,49 @@ type CountryCode = String
 
 
 -- |Owm lang setting. See https://openweathermap.org/current
-data Lang = EN|RU|IT|ES|SP|UK|UA|DE|PT|RO|PL|FI|NL|FR|BG|SV|SE|ZH_TW|ZH|ZH_CN|TR|HR|CA
+-- | awk 'BEGIN{FS=","}{print toupper($2)}' languages.txt | tr "\n" "|"
+data Lang = AR|BG|CA|CZ|DE|EL|EN|FA|FI|FR|GL|HR|HU|IT|JA|KR|LA|LT|MK|NL|PL|PT|RO|RU|SE|SK|SL|ES|TR|UA|VI|ZH_CN|ZH_TW
 
+-- |awk 'BEGIN{FS=","}{print "show " toupper($2) " = \"" $2 "\"" }' languages.txt
 instance Show Lang where
-    show EN    = "&lang=en"
-    show RU    = "&lang=ru"
-    show IT    = "&lang=it"
-    show ES    = "&lang=es"
-    show SP    = "&lang=sp"
-    show UK    = "&lang=uk"
-    show UA    = "&lang=ua"
-    show DE    = "&lang=de"
-    show PT    = "&lang=pt"
-    show RO    = "&lang=ro"
-    show PL    = "&lang=pl"
-    show FI    = "&lang=fi"
-    show NL    = "&lang=nl"
-    show FR    = "&lang=fr"
-    show BG    = "&lang=bg"
-    show SV    = "&lang=sv"
-    show SE    = "&lang=se"
-    show ZH_TW = "&lang=zh_tw"
-    show ZH    = "&lang=zh"
-    show ZH_CN = "&lang=zh_cn"
-    show TR    = "&lang=tr"
-    show HR    = "&lang=hr"
-    show CA    = "&lang=ca"
-
+    show AR = "ar"
+    show BG = "bg"
+    show CA = "ca"
+    show CZ = "cz"
+    show DE = "de"
+    show EL = "el"
+    show EN = "en"
+    show FA = "fa"
+    show FI = "fi"
+    show FR = "fr"
+    show GL = "gl"
+    show HR = "hr"
+    show HU = "hu"
+    show IT = "it"
+    show JA = "ja"
+    show KR = "kr"
+    show LA = "la"
+    show LT = "lt"
+    show MK = "mk"
+    show NL = "nl"
+    show PL = "pl"
+    show PT = "pt"
+    show RO = "ro"
+    show RU = "ru"
+    show SE = "se"
+    show SK = "sk"
+    show SL = "sl"
+    show ES = "es"
+    show TR = "tr"
+    show UA = "ua"
+    show VI = "vi"
+    show ZH_CN = "zh_cn"
+    show ZH_TW = "zh_tw"
 
 -- |Owm units setting. See https://openweathermap.org/current
 data Units = Metric | Standard | Imperial
 
 instance Show Units where
-    show Metric   = "&units=metric"
+    show Metric   = "metric"
     show Standard = ""
-    show Imperial = "&units=imperial"
+    show Imperial = "imperial"
