@@ -18,10 +18,12 @@ library
   build-depends:       base >= 4.7 && < 5
                      , aeson
                      , bytestring
-                     , http-conduit
+                     , wreq
+                     , lens
                      , json-autotype
                      , HTTP
                      , text
+                     , http-types
   other-modules:     Network.Owm.Internal.Weather, Network.Owm.Internal.Forecast, Network.Owm.Internal.ForecastDaily
   default-language:    Haskell2010
 
@@ -46,7 +48,8 @@ executable get-json-examples
   ghc-options:         -O2 -threaded
   build-depends:       base
                      , bytestring
-                     , http-conduit
+                     , wreq
+                     , lens
                      , mtl
                      , MissingH
   default-language:    Haskell2010

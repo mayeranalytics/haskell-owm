@@ -5,16 +5,22 @@ module Network.Owm.Weather (
     fromCityId, fromCityName, fromCoords, fromZipCode
 ) where
 
-import qualified Data.ByteString.Lazy as BSL
+import qualified Data.ByteString as BS
 import           Data.Aeson(decode)
-import           Network.HTTP.Conduit (simpleHttp)
+import qualified Network.Wreq as Wreq (get)
+import           Network.Wreq (responseBody)
+import           Control.Lens ((.~), (^.))
+import qualified Data.Text as T
+import           Data.Text.Encoding (encodeUtf8)
+import           Data.Maybe (maybe)
 import           Network.Owm.Internal.Weather hiding(parse)
 import qualified Network.Owm as Owm
 
 get :: Owm.Key -> Owm.Units -> Owm.Lang -> String -> IO (Maybe Weather)
 get key units lang url = do
     let url' = url ++ show units ++ show lang ++ "&APPID=" ++ key
-    response <- simpleHttp url'
+    r <- Wreq.get url'
+    let response = r ^. responseBody
     return $ decode response
 
 fromCityId :: Owm.Key -> Owm.Units -> Owm.Lang -> Owm.CityId -> IO (Maybe Weather)
@@ -22,9 +28,7 @@ fromCityId key units lang id_ = get key units lang (Owm.owm_base_url ++ "/weathe
 
 fromCityName :: Owm.Key -> Owm.Units -> Owm.Lang -> Owm.CityName -> Maybe Owm.CountryCode -> IO (Maybe Weather)
 fromCityName key units lang name ccode = get key units lang (Owm.owm_base_url ++ "/weather?" ++ q) where
-    q = case ccode of
-        Just ccode' -> "q=" ++ name ++ "," ++ ccode'
-        Nothing     -> "q=" ++ name
+    q = "q=" ++ name ++ (maybe "" ("," ++) ccode)
 
 fromCoords :: Owm.Key -> Owm.Units -> Owm.Lang -> Owm.Coords -> IO (Maybe Weather)
 fromCoords key units lang (lat, lon) = get key units lang (Owm.owm_base_url ++ "/weather?" ++ q) where

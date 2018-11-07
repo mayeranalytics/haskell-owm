@@ -2,7 +2,9 @@
 -- stack --resolver lts-12.16 script
 module Main where
 
-import           Network.HTTP.Conduit
+import qualified Network.Wreq as Wreq (get)
+import           Network.Wreq (responseBody)
+import           Control.Lens ((.~), (^.))
 import qualified Data.ByteString.Lazy as BSL
 import           Data.String.Utils (strip)
 import           Control.Monad.State
@@ -13,7 +15,7 @@ inc = get >>= \i->put (i+1) :: StateT Int IO ()
 resetCounter = put 1 :: StateT Int IO ()
 done = return () :: StateT Int IO ()
 readKey = strip <$> (liftIO.readFile) "owm.key" :: StateT Int IO String
-wget = liftIO . simpleHttp :: String -> StateT Int IO BSL.ByteString
+wget url = liftIO $ Wreq.get url >>= (\r->return $ r ^. responseBody)
 
 save :: FilePath -> BSL.ByteString -> StateT Int IO ()
 save f b = do
