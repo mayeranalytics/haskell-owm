@@ -41,10 +41,10 @@ class MakeParam a where
 type Lat = Double
 type Lon = Double
 
-data CountryCode = CountryCode String | AnyCountry deriving (Show)
+data CountryCode = CountryCode String | DefaultCountry deriving (Show)
 
 instance IsString CountryCode where
-    fromString s = if s == "" then AnyCountry else CountryCode s
+    fromString s = if s == "" then DefaultCountry else CountryCode s
 
 
 newtype Key = Key String deriving (Show)
@@ -62,7 +62,7 @@ instance MakeParam CityId where
 data CityName = CityName String CountryCode deriving (Show)
 
 instance MakeParam CityName where
-    makeParam (CityName n AnyCountry) = param "q" .~ [T.pack n]
+    makeParam (CityName n DefaultCountry) = param "q" .~ [T.pack n]
     makeParam (CityName n (CountryCode c)) = param "q" .~ [T.pack n']
         where n' = n ++ "," ++  c
 
@@ -85,7 +85,7 @@ instance MakeParam Count where
 data ZipCode = ZipCode Int CountryCode deriving (Show)
 
 instance MakeParam ZipCode where
-    makeParam (ZipCode z AnyCountry) = param "zip" .~ [T.pack $ show z]
+    makeParam (ZipCode z DefaultCountry) = param "zip" .~ [T.pack $ show z]
     makeParam (ZipCode z (CountryCode c)) = param "q" .~ [T.pack z']
         where z' = (show z) ++ "," ++  c
     
