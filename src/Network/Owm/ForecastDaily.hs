@@ -1,12 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell #-}
 
-module Network.Owm.ForecastDaily (
-    module Network.Owm.Internal.ForecastDaily,
-    fromCityId, fromCityName, fromCoords, fromZipCode
-) where
+module Network.Owm.ForecastDaily  where
 
-import           Network.Owm.Internal.ForecastDaily (ForecastDaily)
+import           Network.Owm.Internal.ForecastDaily
 import           Network.Owm
+import           Control.Lens.TH
+
+makeClassy_ ''ForecastDaily
+makeClassy_ ''Temp
+makeClassy_ ''WeatherElt
+makeClassy_ ''ListElt
+makeClassy_ ''Coord
+makeClassy_ ''City
 
 fromCityId :: Key -> Units -> Lang -> CityId -> Count -> IO (Maybe ForecastDaily)
 fromCityId key units lang id_ count = 

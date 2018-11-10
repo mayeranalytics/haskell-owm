@@ -16,7 +16,8 @@ module Network.Owm
     owmBaseUrl25,
     owmBaseUrl30,
     makeParam, MakeParam,
-    getOwm, getOwmWith
+    getOwm, getOwmWith,
+    toUTCTime
 ) where
 
 import           Prelude hiding (LT)
@@ -27,6 +28,9 @@ import qualified Data.Text as T
 import           Data.Maybe (catMaybes)
 import           Data.String (IsString(..))
 import           Data.Aeson(FromJSON, decode)
+import           Data.Time.Clock.POSIX (posixSecondsToUTCTime)
+import           Data.Time.Clock (UTCTime)
+
 
 owmBaseUrl25 :: String
 owmBaseUrl25 = "http://api.openweathermap.org/data/2.5/"
@@ -162,3 +166,7 @@ getOwmWith opts key units lang url = do
 
 getOwm :: FromJSON a => Key -> Units -> Lang -> String -> IO (Maybe a)
 getOwm = getOwmWith []
+
+-- |Convert OWM's Double datetime representation to an UTCTime
+toUTCTime :: Double -> UTCTime
+toUTCTime d = posixSecondsToUTCTime (fromIntegral $ floor d)

@@ -4,7 +4,7 @@ all:
 	stack build
 
 run:
-	stack build && stack exec parse-owm
+	stack build && stack exec test-owm
 
 json: auto-src/Weather.hs auto-src/Forecast.hs auto-src/ForecastDaily.hs 
 

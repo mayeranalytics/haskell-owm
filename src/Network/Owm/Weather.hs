@@ -1,12 +1,20 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell #-}
 
-module Network.Owm.Weather (
-    module Network.Owm.Internal.Weather,
-    fromCityId, fromCityName, fromCoords, fromZipCode
-) where
+module Network.Owm.Weather where
 
-import           Network.Owm.Internal.Weather (Weather)
+import           Network.Owm.Internal.Weather
 import           Network.Owm
+import           Control.Lens.TH
+
+makeClassy_ ''Weather
+makeClassy_ ''Rain
+makeClassy_ ''Wind
+makeClassy_ ''Coord
+--makeClassy_ ''Main
+makeClassy_ ''Sys
+makeClassy_ ''Clouds
+makeClassy_ ''WeatherElt
 
 fromCityId :: Key -> Units -> Lang -> CityId -> IO (Maybe Weather)
 fromCityId key units lang id_ = 
