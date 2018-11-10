@@ -8,6 +8,12 @@
 >
 > [Wikipedia](https://en.wikipedia.org/wiki/OpenWeatherMap)
 
+Coverage:
+
+ - [Current weather](https://openweathermap.org/current)
+ - [5 day / 3 hour forecast](https://openweathermap.org/forecast5)
+ - [16 day / daily forecast](https://openweathermap.org/forecast16)
+
 ## Getting Started
 
 In order to make requests you need to register at [https://openweathermap.org](https://openweathermap.org)  and obtain an API. Save the key in a file called `own.key` . Then run
@@ -97,7 +103,13 @@ import Control.Lens
 w <- fromJust <$> ForecastDaily.fromCoords key Owm.Metric Owm.ES (Owm.Coords 90.0 180.0) (Count 6)	-- 6 12h intervals
 cod = w ^. ForecastDaily._forecastDailyCod
 dts = w ^. ForecastDaily._forecastDailyList ^.. traverse . ForecastDaily._listEltDt
-temp = w ^. ForecastDaily._forecastDailyList ^.. traverse . ForecastDaily._listEltTemp
+temps = w ^. ForecastDaily._forecastDailyList ^.. traverse . ForecastDaily._listEltTemp
+```
+
+OWM represents timestamps as UNIX epoch `Double`s. Use  `toUTCTime :: Double -> UTCTime` to convert to a proper time stamp.
+
+```haskell
+print $ zip (toUTCTome <$> dts) temps
 ```
 
 This gives a result like
@@ -111,9 +123,9 @@ This gives a result like
 (2018-11-11 11:00:00 UTC,Temp {tempMax = -18.05, tempDay = -20.68, tempNight = -18.05, tempMin = -20.73, tempMorn = -20.73, tempEve = -19.17})
 ```
 
-TODO: MORE
-
 ## About the API
+
+The JSON generators/parsers are auto-generated with the help of [json-autotype](https://github.com/mgajda/json-autotype). This approach has advantages and disadvantages: No effort is spent on writing `ToJSON` and `FromJSON` instances, so it's easy to adapt and extend the library. The downside are not very intuitive naming and an abundance of name-clashes, resulting in lengthy (qualified) function names.
 
 ## `json-autotype`
 
@@ -125,3 +137,5 @@ stack install json-autotype runghc
 ```
 
 JSON input is generated with `GetJsonExamples.hs`, it will write files into the folder `json`.
+
+TODO: Explain the setup
