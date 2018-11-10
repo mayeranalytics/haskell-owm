@@ -5,41 +5,21 @@ module Network.Owm.Weather (
     fromCityId, fromCityName, fromCoords, fromZipCode
 ) where
 
-import qualified Data.ByteString as BS
-import           Data.Aeson(decode)
-import qualified Network.Wreq (get)
-import           Network.Wreq (responseBody, getWith, defaults, param)
-import           Control.Lens ((.~), (^.), (&))
-import qualified Data.Text as T
-import           Data.Text.Encoding (encodeUtf8)
-import           Data.Maybe (maybe)
-import           Network.Owm.Internal.Weather hiding(parse)
+import           Network.Owm.Internal.Weather (Weather)
 import           Network.Owm
 
-get :: Key -> Units -> Lang -> String -> IO (Maybe Weather)
-get key units lang url = do
-    let params = [
-            makeParam key,
-            makeParam units,
-            makeParam lang
-            ]
-        opts = foldl (&) defaults params
-    r <- getWith opts url >>= (return . (^. responseBody))
-    return $ decode r
-
 fromCityId :: Key -> Units -> Lang -> CityId -> IO (Maybe Weather)
-fromCityId key units lang id_ = get key units lang (owmBaseUrl25 ++ "/weather?id=" ++ show id_)
+fromCityId key units lang id_ = 
+    getOwmWith [makeParam id_] key units lang (owmBaseUrl25 ++ "/weather?")
 
-fromCityName :: Key -> Units -> Lang -> CityName -> Maybe CountryCode -> IO (Maybe Weather)
-fromCityName key units lang name ccode = get key units lang (owmBaseUrl25 ++ "/weather?" ++ q) where
-    q = "q=" ++ name ++ (maybe "" ("," ++) ccode)
+fromCityName :: Key -> Units -> Lang -> CityName -> IO (Maybe Weather)
+fromCityName key units lang name = 
+    getOwmWith [makeParam name] key units lang (owmBaseUrl25 ++ "/weather?") where
 
 fromCoords :: Key -> Units -> Lang -> Coords -> IO (Maybe Weather)
-fromCoords key units lang (lat, lon) = get key units lang (owmBaseUrl25 ++ "/weather?" ++ q) where
-    q = "lat=" ++ show lat ++ "&lon=" ++ show lon
+fromCoords key units lang coords = 
+    getOwmWith [makeParam coords] key units lang (owmBaseUrl25 ++ "/weather?")
 
-fromZipCode :: Key -> Units -> Lang -> ZipCode -> Maybe CountryCode -> IO (Maybe Weather)
-fromZipCode key units lang zipcode ccode = get key units lang (owmBaseUrl25 ++ "/weather?" ++ q) where
-    q = case ccode of
-        Just ccode' -> "zip=" ++ show zipcode ++ "," ++ ccode'
-        Nothing     -> "zip=" ++ show zipcode
+fromZipCode :: Key -> Units -> Lang -> ZipCode -> IO (Maybe Weather)
+fromZipCode key units lang zipcode = 
+    getOwmWith [makeParam zipcode] key units lang (owmBaseUrl25 ++ "/weather?") where
