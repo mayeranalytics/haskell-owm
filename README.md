@@ -20,3 +20,13 @@ stack build && stack exec parse-owm
 
 See: [https://openweathermap.org/api](https://openweathermap.org/api)
 
+## `json-autotype`
+
+[json-autotype](https://github.com/mgajda/json-autotype) does automatic type inference from JSON input.
+
+```
+# installation: 
+stack install json-autotype runghc
+```
+
+JSON input is generated with `GetJsonExamples.hs`, it will write files into the folder `json`.

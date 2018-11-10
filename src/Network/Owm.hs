@@ -1,6 +1,8 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Network.Owm
 (
-    Key,
+    Key (..),
     CityName,
     CityId,
     Coords,
@@ -10,10 +12,16 @@ module Network.Owm
     CountryCode,
     Lang(..),
     Units(..),
-    owmBaseUrl25
+    owmBaseUrl25,
+    owmBaseUrl30,
+    makeParam, MakeParam
 ) where
 
-import Prelude hiding (LT)
+import           Prelude hiding (LT)
+import           Network.Wreq (Options)
+import           Network.Wreq (param)
+import           Control.Lens ((.~))
+import qualified Data.Text as T
 
 owmBaseUrl25 :: String
 owmBaseUrl25 = "http://api.openweathermap.org/data/2.5/"
@@ -21,7 +29,10 @@ owmBaseUrl25 = "http://api.openweathermap.org/data/2.5/"
 owmBaseUrl30 :: String
 owmBaseUrl30 = "http://api.openweathermap.org/data/3.0/"
 
-type Key = String
+
+class MakeParam a where
+    makeParam ::  a -> Options -> Options
+
 type CityName = String
 type CityId = Int
 type Coords = (Lat, Lon)
@@ -30,10 +41,15 @@ type Lon = Double
 type ZipCode = Int
 type CountryCode = String
 
+newtype Key = Key String deriving (Show)
+
+instance MakeParam Key where
+    makeParam (Key key) = param "APPID" .~ [T.pack key]
 
 -- |Owm lang setting. See https://openweathermap.org/current
 -- | awk 'BEGIN{FS=","}{print toupper($2)}' languages.txt | tr "\n" "|"
 data Lang = AR|BG|CA|CZ|DE|EL|EN|FA|FI|FR|GL|HR|HU|IT|JA|KR|LA|LT|MK|NL|PL|PT|RO|RU|SE|SK|SL|ES|TR|UA|VI|ZH_CN|ZH_TW
+            deriving (Eq)
 
 -- |awk 'BEGIN{FS=","}{print "show " toupper($2) " = \"" $2 "\"" }' languages.txt
 instance Show Lang where
@@ -71,10 +87,19 @@ instance Show Lang where
     show ZH_CN = "zh_cn"
     show ZH_TW = "zh_tw"
 
+instance MakeParam Lang where
+    makeParam EN = id
+    makeParam l = param "lang" .~ [T.pack $ show l]
+
 -- |Owm units setting. See https://openweathermap.org/current
-data Units = Metric | Standard | Imperial
+data Units = Metric | Standard | Imperial deriving (Eq)
 
 instance Show Units where
     show Metric   = "metric"
     show Standard = ""
     show Imperial = "imperial"
+
+instance MakeParam Units where
+    makeParam Standard = id
+    makeParam Metric = param "units" .~ ["metric"]
+    makeParam Imperial = param "units" .~ ["imperial"]
