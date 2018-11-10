@@ -72,6 +72,45 @@ ZipCode 60606 DefaultCountry
 w<-ForecastDaily.fromCoords key Owm.Metric Owm.SE (Owm.Coords 90.0 0.0) (Count 3)
 ```
 
+```haskell
+w' = fromJust w	-- import Data.Maybe (fromJust)
+forecastDailyCod w'	-- check return code, should be 200
+ForecastDaily.listEltTemp  <$> forecastDailyList w'
+```
+
+The result is something like
+
+```haskell
+[Temp {tempMax = -17.8, tempDay = -17.94, tempNight = -20.45, tempMin = -20.45, 
+       tempMorn = -17.8, tempEve = -18.76},
+ Temp {tempMax = -21.36, tempDay = -22.46, tempNight = -21.36, tempMin = -22.46, 
+       tempMorn = -22.46, tempEve = -22.4},
+ Temp {tempMax = -17.7, tempDay = -20.14, tempNight = -17.7, tempMin = -21.36, 
+       tempMorn = -21.36, tempEve = -18.12}
+]
+```
+
+The data accessors look a little nicer by using [lenses](https://hackage.haskell.org/package/lens):
+
+```Haskell
+import Control.Lens
+w <- fromJust <$> ForecastDaily.fromCoords key Owm.Metric Owm.ES (Owm.Coords 90.0 180.0) (Count 6)	-- 6 12h intervals
+cod = w ^. ForecastDaily._forecastDailyCod
+dts = w ^. ForecastDaily._forecastDailyList ^.. traverse . ForecastDaily._listEltDt
+temp = w ^. ForecastDaily._forecastDailyList ^.. traverse . ForecastDaily._listEltTemp
+```
+
+This gives a result like
+
+```haskell
+(2018-11-9 05:00:00 UTC,Temp {tempMax = -17.8, tempDay = -17.94, tempNight = -20.45, tempMin = -20.45, tempMorn = -17.8, tempEve = -18.76})
+(2018-11-9 11:00:00 UTC,Temp {tempMax = -21.33, tempDay = -22.4, tempNight = -21.33, tempMin = -22.4, tempMorn = -22.4, tempEve = -22.35})
+(2018-11-10 05:00:00 UTC,Temp {tempMax = -17.7, tempDay = -20.14, tempNight = -17.7, tempMin = -21.33, tempMorn = -21.33, tempEve = -18.12})
+(2018-11-10 11:00:00 UTC,Temp {tempMax = -17.7, tempDay = -18.12, tempNight = -18.52, tempMin = -20.14, tempMorn = -20.14, tempEve = -17.7})
+(2018-11-11 05:00:00 UTC,Temp {tempMax = -18.52, tempDay = -20.73, tempNight = -19.17, tempMin = -20.73, tempMorn = -18.52, tempEve = -20.68})
+(2018-11-11 11:00:00 UTC,Temp {tempMax = -18.05, tempDay = -20.68, tempNight = -18.05, tempMin = -20.73, tempMorn = -20.73, tempEve = -19.17})
+```
+
 TODO: MORE
 
 ## About the API
