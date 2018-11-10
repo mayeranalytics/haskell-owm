@@ -14,7 +14,7 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:    src
-  exposed-modules:   Network.Owm.Weather, Network.Owm.Forecast, Network.Owm
+  exposed-modules:   Network.Owm.Weather, Network.Owm.Forecast, Network.Owm.ForecastDaily, Network.Owm
   build-depends:       base >= 4.7 && < 5
                      , aeson
                      , bytestring
@@ -24,7 +24,9 @@ library
                      , HTTP
                      , text
                      , http-types
-  other-modules:     Network.Owm.Internal.Weather, Network.Owm.Internal.Forecast, Network.Owm.Internal.ForecastDaily
+  other-modules:       Network.Owm.Internal.Weather
+                     , Network.Owm.Internal.Forecast
+                     , Network.Owm.Internal.ForecastDaily
   default-language:    Haskell2010
 
 executable parse-owm
