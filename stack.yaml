@@ -4,4 +4,4 @@ packages:
 - '.'
 extra-deps: 
 allow-newer: true
-resolver: lts-12.23
+resolver: lts-12.24
