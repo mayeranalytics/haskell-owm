@@ -21,6 +21,7 @@ library
                      , wreq
                      , lens
                      , json-autotype
+		     , json-alt
                      , HTTP
                      , text
                      , http-types

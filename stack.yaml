@@ -7,7 +7,5 @@ extra-deps:
 - json-autotype-3.1.2@sha256:054191a85b710c790cb1f1a62de982194dfd086c745299a677210899e0b6625b,8510
 - json-alt-1.0.0@sha256:8beedde73310702c8b0f0bd20b16db3945fe3a9b75f9163fedbda30a79edbd05,2949
 - run-haskell-module-0.0.2@sha256:69eaa538fa6f3820581451a157b439feede147cd4bce032dcc393b247f7a597d,1317
-
-
 allow-newer: true
 resolver: lts-18.18
