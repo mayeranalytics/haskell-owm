@@ -138,4 +138,6 @@ stack install json-autotype runghc
 
 JSON input is generated with `GetJsonExamples.hs`, it will write files into the folder `json`.
 
-TODO: Explain the setup
+TODO: 
+- Explain the setup
+- Add some tests
